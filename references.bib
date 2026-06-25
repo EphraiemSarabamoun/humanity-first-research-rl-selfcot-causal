@@ -1,0 +1,111 @@
+@article{lanham2023measuring,
+  title={Measuring Faithfulness in Chain-of-Thought Reasoning},
+  author={Lanham, Tamera and Chen, Anna and Radhakrishnan, Ansh and Steiner, Benoit and Denison, Carson and Hernandez, Danny and Li, Dustin and Durmus, Esin and Hubinger, Evan and Kernion, Jackson and others},
+  eprint={2307.13702}, archivePrefix={arXiv}, year={2023},
+  annote={Introduces corrupting / truncating the CoT to test whether the answer causally depends on it; our self-CoT corruption-flip protocol is a direct adaptation.}
+}
+
+@article{turpin2023saywhat,
+  title={Language Models Don't Always Say What They Think: Unfaithful Explanations in Chain-of-Thought Prompting},
+  author={Turpin, Miles and Michael, Julian and Perez, Ethan and Bowman, Samuel R},
+  eprint={2305.04388}, archivePrefix={arXiv}, year={2023},
+  annote={Shows stated reasoning can diverge from the true cause of the answer; the unfaithfulness our intervention tries to detect after RL.}
+}
+
+@article{shao2024deepseekmath,
+  title={DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models},
+  author={Shao, Zhihong and Wang, Peiyi and Zhu, Qihao and Xu, Runxin and Song, Junxiao and Bi, Xiao and Zhang, Haowei and Zhang, Mingchuan and Li, YK and Wu, Y and others},
+  eprint={2402.03300}, archivePrefix={arXiv}, year={2024},
+  annote={Introduces GRPO, the outcome-only RL algorithm we use; the training method whose effect on CoT reliance we probe.}
+}
+
+@article{guo2025deepseekr1,
+  title={DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning},
+  author={Guo, Daya and Yang, Dejian and Zhang, Haowei and Song, Junxiao and Zhang, Ruoyu and Xu, Runxin and Zhu, Qihao and Ma, Shirong and Wang, Peiyi and Bi, Xiao and others},
+  eprint={2501.12948}, archivePrefix={arXiv}, year={2025},
+  annote={Large-scale outcome-only RL that reshapes chains of thought; the regime our small-scale study is a controlled proxy for.}
+}
+
+@article{ouyang2022instructgpt,
+  title={Training language models to follow instructions with human feedback},
+  author={Ouyang, Long and Wu, Jeffrey and Jiang, Xu and Almeida, Diogo and Wainwright, Carroll and Mishkin, Pamela and Zhang, Chong and Agarwal, Sandhini and Slama, Katarina and Ray, Alex and others},
+  eprint={2203.02155}, archivePrefix={arXiv}, year={2022},
+  annote={The canonical RLHF recipe; outcome-only reward at scale, the family of methods our concern is about.}
+}
+
+@article{bai2022hh,
+  title={Training a Helpful and Harmless Assistant with Reinforcement Learning from Human Feedback},
+  author={Bai, Yuntao and Jones, Andy and Ndousse, Kamal and Askell, Amanda and Chen, Anna and DasSarma, Nova and Drain, Dawn and Fort, Stanislav and Ganguli, Deep and Henighan, Tom and others},
+  eprint={2204.05862}, archivePrefix={arXiv}, year={2022},
+  annote={Establishes RLHF as standard post-training; context for why outcome-reward effects on reasoning matter.}
+}
+
+@article{rafailov2023dpo,
+  title={Direct Preference Optimization: Your Language Model is Secretly a Reward Model},
+  author={Rafailov, Rafael and Sharma, Archit and Mitchell, Eric and Ermon, Stefano and Manning, Christopher D and Finn, Chelsea},
+  eprint={2305.18290}, archivePrefix={arXiv}, year={2023},
+  annote={A widely used outcome-level preference optimizer; part of the post-training family whose effect on CoT we test.}
+}
+
+@article{wei2022cot,
+  title={Chain-of-Thought Prompting Elicits Reasoning in Large Language Models},
+  author={Wei, Jason and Wang, Xuezhi and Schuurmans, Dale and Bosma, Maarten and Ichter, Brian and Xia, Fei and Chi, Ed and Le, Quoc and Zhou, Denny},
+  eprint={2201.11903}, archivePrefix={arXiv}, year={2022},
+  annote={Defines chain-of-thought reasoning; the object whose causal role we measure.}
+}
+
+@article{wang2022selfconsistency,
+  title={Self-Consistency Improves Chain of Thought Reasoning in Language Models},
+  author={Wang, Xuezhi and Wei, Jason and Schuurmans, Dale and Le, Quoc and Chi, Ed and Narang, Sharan and Chowdhery, Aakanksha and Zhou, Denny},
+  eprint={2203.11171}, archivePrefix={arXiv}, year={2022},
+  annote={Treats the CoT as a sampled latent that determines the answer; motivates measuring how much the answer moves when the CoT changes.}
+}
+
+@article{lightman2023letsverify,
+  title={Let's Verify Step by Step},
+  author={Lightman, Hunter and Kosaraju, Vineet and Burda, Yura and Edwards, Harri and Baker, Bowen and Lee, Teddy and Leike, Jan and Schulman, John and Sutskever, Ilya and Cobbe, Karl},
+  eprint={2305.20050}, archivePrefix={arXiv}, year={2023},
+  annote={Process vs outcome supervision; the contrast that makes the worry about outcome-only reward concrete.}
+}
+
+@article{lyu2023faithfulcot,
+  title={Faithful Chain-of-Thought Reasoning},
+  author={Lyu, Qing and Havaldar, Shreya and Stein, Adam and Zhang, Li and Rao, Delip and Wong, Eric and Apidianaki, Marianna and Callison-Burch, Chris},
+  eprint={2301.13379}, archivePrefix={arXiv}, year={2023},
+  annote={Proposes reasoning whose answer is guaranteed to follow from the stated steps; the faithfulness ideal our intervention checks against.}
+}
+
+@article{nye2021scratchpads,
+  title={Show Your Work: Scratchpads for Intermediate Computation with Language Models},
+  author={Nye, Maxwell and Andreassen, Anders Johan and Gur-Ari, Guy and Michalewski, Henryk and Austin, Jacob and Bieber, David and Dohan, David and Lewkowycz, Aitor and Bosma, Maarten and Luan, David and others},
+  eprint={2112.00114}, archivePrefix={arXiv}, year={2021},
+  annote={Early scratchpad reasoning that materially changes outputs; a baseline for CoT being load-bearing rather than decorative.}
+}
+
+@article{hendrycks2021mmlu,
+  title={Measuring Massive Multitask Language Understanding},
+  author={Hendrycks, Dan and Burns, Collin and Basart, Steven and Zou, Andy and Mazeika, Mantas and Song, Dawn and Steinhardt, Jacob},
+  eprint={2009.03300}, archivePrefix={arXiv}, year={2020},
+  annote={The MMLU benchmark we train and evaluate on.}
+}
+
+@article{qwen2024report,
+  title={Qwen2.5 Technical Report},
+  author={Yang, An and Yang, Baosong and Zhang, Beichen and Hui, Binyuan and Zheng, Bo and Yu, Bowen and Li, Chengyuan and Liu, Dayiheng and Huang, Fei and Wei, Haoran and others},
+  eprint={2412.15115}, archivePrefix={arXiv}, year={2024},
+  annote={Model card for Qwen2.5-1.5B-Instruct, the base model we RL-tune and probe.}
+}
+
+@article{cobbe2021gsm8k,
+  title={Training Verifiers to Solve Math Word Problems},
+  author={Cobbe, Karl and Kosaraju, Vineet and Bavarian, Mohammad and Chen, Mark and Jun, Heewoo and Kaiser, Lukasz and Plappert, Matthias and Tworek, Jerry and Hilton, Jacob and Nakano, Reiichiro and others},
+  eprint={2110.14168}, archivePrefix={arXiv}, year={2021},
+  annote={Verifiable-answer reasoning that grounds outcome-only reward; the reward-signal style our GRPO uses.}
+}
+
+@article{kojima2022zeroshot,
+  title={Large Language Models are Zero-Shot Reasoners},
+  author={Kojima, Takeshi and Gu, Shixiang Shane and Reid, Machel and Matsuo, Yutaka and Iwasawa, Yusuke},
+  eprint={2205.11916}, archivePrefix={arXiv}, year={2022},
+  annote={Shows a simple prompt elicits multi-step reasoning that changes answers; supports treating the CoT as potentially load-bearing for the final answer.}
+}

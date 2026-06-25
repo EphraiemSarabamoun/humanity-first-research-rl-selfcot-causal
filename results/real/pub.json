@@ -1,0 +1,202 @@
+{
+ "plain": "There is a worry that training an AI only on whether its final answer is correct (not on its reasoning) teaches it to give answers that no longer truly depend on the reasoning it writes. We tested this by having a model write its reasoning and answer, then scrambling that reasoning and checking whether the answer changes, comparing a small model before and after this kind of training. We found no clear difference, but the test had serious problems: the training barely changed the model, the two versions were measured on different question sets, and the small model answered so close to random that its answers were unstable regardless. So this is an inconclusive null with a clear list of what a stronger experiment would need, not a real answer to the question. Approve publishes it as an honest negative-and-methods note; Reject shelves it.",
+ "cost": {
+  "api_equivalent_usd": 47.6365,
+  "sessions": [
+   {
+    "label": "research-prime-driver",
+    "host": "local",
+    "transcript": "/tmp/selfcot-driver.jsonl",
+    "messages": 240,
+    "usd": 47.6365
+   }
+  ]
+ },
+ "paper_title": "Outcome-Only RL Did Not Reduce a Model Causal Dependence on Its Own Chain of Thought: A Self-CoT Corruption-Flip Null at Small Scale",
+ "headline_claim": "On Qwen2.5-1.5B-Instruct before vs after 120 steps of outcome-only GRPO on MMLU, the self-CoT corruption-flip rate showed no detectable change (mismatched-CoT flip 0.660 base vs 0.654 RL, overlapping CIs). This is a bounded, confounded null: the comparison is unpaired, the intact control is not a valid floor (truncate flips below it), near-chance accuracy (0.34) confounds flips with generic instability, and the RL treatment barely changed the model (accuracy 0.340 to 0.327). It is not evidence about outcome-only RL; it is a specification of what a credible test needs.",
+ "weakest_part": "This is a weak, confounded null and I would not defend it as a finding; I reframed the paper to say so. Four real problems. (1) UNPAIRED: base and RL are scored on different kept-item sets (144 vs 162) because parseable-answer/non-empty-CoT keep differs by policy; a paired-intersection reanalysis is required and was not done. (2) The intact control fails monotonicity: the truncate flip (0.125) is BELOW the intact flip (0.194), so intact is not a valid noise floor and the floor-subtraction logic was removed. (3) Near-chance accuracy (0.34 vs 0.25) means answers are intrinsically unstable, so the high mismatch flip conflates genuine CoT-content dependence with generic instability; the missing control is a regenerate-from-scratch instability baseline. (4) Most fundamentally, 120 GRPO steps on a 1.5B model did not move accuracy, so the policy barely changed and the test had little power. The automated reviewer panel independently lean-rejected on (1), (2), and (3); the draft now drops the positive methodological claim and foregrounds all four confounds. Best read as a worked spec of a credible higher-power test, not as evidence about outcome-only RL.",
+ "gate_report": {
+  "project_dir": "/home/ephra/projects/rl-selfcot-causal",
+  "generated_at": "2026-06-24T17:25:03+00:00",
+  "checks": [
+   {
+    "name": "artifacts",
+    "status": "warn",
+    "detail": "required present; recommended absent: analysis_points.csv, analysis_tests.csv"
+   },
+   {
+    "name": "metric_consistency",
+    "status": "warn",
+    "detail": "[generic parser] all primary values traced; p/CI values not all found (papers round or omit them): ci_bound[0].ci=0.2639 not in paper.md; ci_bound[3].ci=0.4012 not in paper.md; ci_bound[4].ci=0.1319 not in paper.md; ci_bound[5].ci=0.2639 not in paper.md; ci_bound[6].ci=0.0926 not in paper.md; ci_bound[7].ci=0.1975 not in paper.md; ci_bound[9].ci=0.1806 not in paper.md; ci_bound[11].ci=0.1296 not in paper.md\u2026"
+   },
+   {
+    "name": "recompute",
+    "status": "pass",
+    "detail": "recompute.py output is identical to analysis_summary.txt (whitespace-normalized) \u2014 every number independently reproduced"
+   },
+   {
+    "name": "csv_traceability",
+    "status": "pass",
+    "detail": "10 metric(s) trace to 2 documented data file(s) with complete sidecars"
+   },
+   {
+    "name": "eval_order",
+    "status": "pass",
+    "detail": "eval_order present and filled in: eval_points.jsonl"
+   },
+   {
+    "name": "citations",
+    "status": "pass",
+    "detail": "16/16 eprints resolve, titles match"
+   },
+   {
+    "name": "reference_count",
+    "status": "pass",
+    "detail": "16 references (distinct keys cited in the draft and present in the bib)"
+   },
+   {
+    "name": "device_scrub",
+    "status": "pass",
+    "detail": "no fleet device names in paper.md/paper.tex"
+   },
+   {
+    "name": "figures",
+    "status": "pass",
+    "detail": "4 figures referenced in paper.md, all on disk with CSV + description sidecars"
+   },
+   {
+    "name": "tex_compiles",
+    "status": "skipped",
+    "detail": "no drafts/paper.tex"
+   },
+   {
+    "name": "style",
+    "status": "pass",
+    "detail": "no em dashes, double hyphens, or bullets"
+   }
+  ],
+  "overall": "pass",
+  "not_checked": [
+   "statistical methodology (test choice, assumptions, multiple comparisons)",
+   "claim/evidence fit \u2014 whether the prose claims more than the numbers support",
+   "novelty against the literature",
+   "code correctness beyond the recompute hook"
+  ]
+ },
+ "reviewer_panel": {
+  "project_dir": "/home/ephra/projects/rl-selfcot-causal",
+  "draft": "drafts/paper.md",
+  "generated_at": "2026-06-24T17:22:45+00:00",
+  "cli": "claudius",
+  "model": "cli-default",
+  "prompt_version": "b8ba148a6536",
+  "advisory": true,
+  "passes": [
+   {
+    "lens": "design_validity",
+    "ok": true,
+    "overall_verdict": "I would not fight for acceptance as is: the headline null compares flip rates on two different question populations (n=144 vs n=162) selected by each model itself, and the 'flip rate = causal dependence' mapping is confounded by how much fresh reasoning each prefill condition permits (truncate flips BELOW the intact 'noise floor'); fix the comparison to be paired-on-intersection and rule out the continuation confound before the null means anything.",
+    "n_findings": 3
+   },
+   {
+    "lens": "measurement",
+    "ok": true,
+    "overall_verdict": "I would not fight for acceptance as written: the headline 'mismatch flips two thirds of answers, so both models depend strongly on CoT' is not separable from generic prompt-incoherence-driven random reanswering, and the intact 'control' is demonstrably not a floor (a real corruption flips less than it). Fix the metric's discriminating analysis and the control logic before any null can be read.",
+    "n_findings": 4
+   },
+   {
+    "lens": "claims",
+    "ok": true,
+    "overall_verdict": "Lean reject in current form, would not fight for acceptance until the title is fixed: it states a flat negative about outcome-only RL that the paper's own failed manipulation check (accuracy 0.340 to 0.327, conceded 'wrong direction') cannot license.",
+    "n_findings": 4
+   }
+  ],
+  "findings": [
+   {
+    "lens": "design_validity",
+    "severity": "high",
+    "claim_attacked": "The mismatched-CoT flip rate ... is statistically indistinguishable between the base model (0.6597 ... n=144) and the RL model (0.6543 ... n=162); both answers depend strongly on the chain of thought.",
+    "why": "The two flip rates are computed on different sets of questions. Per the Method, items are kept only if THAT model produced a parseable answer and non-empty CoT, yielding 144 items for base and 162 for RL out of the same 300-item slice. So the base 0.6597 is measured on base's 144 self-selected items and the RL 0.6543 on RL's 162 self-selected items, and the kept sets are not identical. The filter is model-conditional: RL keeps 18 more items, meaning the two models are scored on partly non-overlapping populations whose difficulty/parseability differs systematically (the very thing RL may have changed). The bootstrap CIs are computed as if these were two independent samples from a fixed population, but the populations differ by construction, so 'statistically indistinguishable' conflates a true treatment effect with a selection difference. Overlapping marginal CIs is also a weak test of a difference even before the population mismatch.",
+    "suggested_fix": "Restrict to the intersection of items both checkpoints produced parseable, non-empty CoT for, and report the PAIRED per-item flip difference (RL flip minus base flip on the same question) with a bootstrap CI on that difference. Report how many items fall in the intersection and how the marginal rates move when restricted to it; if the null survives on the paired intersection it is credible, if it does not the headline collapses."
+   },
+   {
+    "lens": "design_validity",
+    "severity": "high",
+    "claim_attacked": "a higher flip rate means the answer is more causally dependent on the reasoning ... the ordering (mismatch above no-CoT above intact above truncate) is shared",
+    "why": "The truncate corruption flips LESS often than the intact control for both models (base 0.1250 < 0.1944; RL 0.0864 < 0.1420), i.e. its net-flips-above-control is negative (base -0.069, RL -0.056). The paper itself frames intact as the measurement-noise floor that 'all corruption numbers must be read against,' yet a corruption sits below that floor. That is incoherent under 'flip = causal dependence': mangling the CoT (keeping only its first half) cannot make the answer MORE stable than replaying the full CoT unless the conditions differ in something other than CoT content. The obvious confound is generation mechanics: prefilling a truncated CoT lets the model continue and re-derive its reasoning before answering, so it reconstructs its own answer (low flip), whereas intact/mismatch/no-CoT permit different amounts of fresh continuation. Flip rate therefore measures 'corruption content' entangled with 'how much new reasoning the prefill allows,' not causal dependence per se. This contaminates the mismatch number too, since mismatch's high flip could partly reflect that a full foreign CoT leaves little room to re-derive rather than genuine reliance on reasoning.",
+    "suggested_fix": "Add a control that holds continuation fixed: e.g. force the answer immediately after each prefill (no further generation) across ALL conditions, or conversely allow equal continuation length in all. Report whether the truncate-below-intact inversion persists when continuation is equalized. State explicitly, per condition, how many tokens the model generates after the prefill, since that is the suspected driver of the ordering."
+   },
+   {
+    "lens": "measurement",
+    "severity": "high",
+    "claim_attacked": "The mismatched-CoT flip rate, the cleanest causal probe... 0.6597... and 0.6543...; both answers depend strongly on the chain of thought.",
+    "why": "On 4-option MMLU, a model that ignores the prepended (incoherent) CoT and simply re-answers near-uniformly produces a flip rate of ~0.75 (1 - 1/4). The observed 0.66 sits just below that random-reanswer reference, i.e. it is as consistent with 'garbled prompt perturbs the model into near-random reanswering' as with 'the answer causally tracks the borrowed reasoning.' The protocol stores only val=0/1 (did the answer change) in eval_points.jsonl, never WHICH option it changed to, so the load-bearing causal reading cannot be tested from these data at all. A high mismatch flip is the signature of the null (CoT content ignored), not proof of dependence \u2014 yet it is sold as 'the cleanest causal probe.'",
+    "suggested_fix": "Among mismatch flips, report the fraction that land on the donor question's answer (following the wrong reasoning to its conclusion) versus an unrelated third option; only an above-chance donor-match rate licenses 'depends on the CoT content.' Add a within-question shuffled/paraphrased-CoT control to separate content-following from incoherence sensitivity."
+   },
+   {
+    "lens": "measurement",
+    "severity": "high",
+    "claim_attacked": "An intact-CoT control... bounds the measurement noise... all corruption numbers must be read against it; and the smaller decreases... track a parallel drop in the intact control floor, so they reflect a baseline shift rather than reduced reliance.",
+    "why": "The data violate the premise that intact is a noise floor. Truncate flip (base 0.1250, RL 0.0864) is BELOW intact flip (base 0.1944, RL 0.1420) for both models \u2014 a genuine corruption flips fewer answers than the faithful replay. Figure 4's own caption admits this ('intact above truncate') and the text never flags it. 'Net flips above control' is therefore negative for truncate, which is nonsensical under 'higher flip = more dependence.' The likely confound is prefill length (intact prefills the full CoT, truncate half), so the 'control' measures reconstruction divergence that scales with prefilled tokens, not an irreducible noise floor. The paper's central move for dismissing the weaker-corruption decreases \u2014 subtract the control \u2014 is thus unjustified.",
+    "suggested_fix": "Show empirically that the intact control upper-bounds every corruption's flip rate (it does not). If it cannot, drop the control-subtraction interpretation and report each corruption's base-vs-RL difference directly with a CI; the no-CoT base-vs-RL CIs (0.4306-0.5903 vs 0.3702-0.5185) already overlap, so the simpler honest statement is 'not significant,' no control arithmetic needed."
+   },
+   {
+    "lens": "claims",
+    "severity": "high",
+    "claim_attacked": "Title: 'Outcome-Only RL Did Not Reduce a Model's Causal Dependence on Its Own Chain of Thought' together with abstract 'The result is a clean null.'",
+    "why": "This is the strongest-sounding claim and it does not survive the weakest number in the paper. The treatment was a confirmed no-op: own-CoT accuracy went 0.3403 to 0.3272 (Sec 3), a change the draft itself calls 'within noise and in the wrong direction.' An intervention that demonstrably did nothing to the policy cannot support a finding about what 'Outcome-Only RL' does or does not do to CoT dependence; 'Did Not Reduce' converts a confounded no-op into a clean negative result. The mitigations (subtitle 'at Small Scale', abstract 'not as evidence against the broader concern', Discussion limitation 1) all live below the title, which is the sentence that will be read, cited, and indexed. The hedge does not fix the title; a reader who takes the title at face value is told outcome-only RL is exonerated, which the data cannot establish.",
+    "suggested_fix": "Retitle to a detection claim conditioned on a passing manipulation check, e.g. 'We Did Not Detect a Reduction...'; and gate any RL-level claim on a run whose accuracy or behavior actually moves. At minimum, report the minimum detectable effect given the observed CIs so readers can see the null is uninformative about RL when the treatment is a no-op."
+   },
+   {
+    "lens": "design_validity",
+    "severity": "medium",
+    "claim_attacked": "they move in lockstep with the intact control floor, which itself fell from 0.1944 to 0.1420 ... so they reflect a baseline shift rather than reduced reliance.",
+    "why": "The interpretive move that neutralizes the weaker-corruption decreases rests on an eyeballed 'tracking' with no statistic, and it asserts the floor drop is measurement noise when the data are equally consistent with a real RL effect. Every condition fell for RL except mismatch (intact 0.194 to 0.142, truncate 0.125 to 0.086, no-CoT 0.514 to 0.444; mismatch ~flat). A uniform downward shift in flip rate across intact/truncate/no-CoT is exactly the signature of RL increasing the model's commitment to its own prefilled answer (answer-stickiness), which IS a behavioral change in how the model uses perturbed CoT, not a noise-floor artifact. Calling it 'measurement noise we bound but do not eliminate' simultaneously contradicts the paper's other load-bearing claim that the RL 'barely moved the model' (accuracy 0.340 to 0.327): you cannot invoke the model as unchanged to excuse the null and then attribute a coherent cross-condition shift to noise. The 'net flips above control barely change' is asserted but never given a CI, and for truncate the net is negative for both models, which the prose glosses.",
+    "suggested_fix": "Compute a per-item control-corrected flip (corruption flip minus intact flip on the SAME item, on the paired intersection) and put a bootstrap CI on the base-vs-RL difference of that corrected quantity, separately for each corruption. Separately test whether the across-the-board floor/weak-corruption drop is an RL-induced stickiness effect by reporting, on identical items, how often each model changes its answer under the intact replay; if RL is uniformly stickier, report that as a finding rather than folding it into 'noise.'"
+   },
+   {
+    "lens": "measurement",
+    "severity": "medium",
+    "claim_attacked": "Figure 2 shows the mean corruption flip rate... at 0.4329 for the base model and 0.3951 for the RL model, a small difference whose confidence intervals overlap once the control shift is accounted for.",
+    "why": "No confidence interval is reported anywhere for mean_corruption_flip \u2014 it is absent from analysis_summary.txt, curve.csv, and figure_causal_dependence.csv (which carry value and n only). There is likewise no CI on any control-adjusted (condition-minus-intact, base-minus-RL) quantity. The prose asserts 'confidence intervals overlap once the control shift is accounted for' for an interval that was never computed, on the one statistic the paper names 'our summary of causal dependence.' Per-example flips exist (eval_points.jsonl), so the interval is computable; it just isn't.",
+    "suggested_fix": "Bootstrap a CI directly on the control-adjusted base-minus-RL difference of the mean corruption flip rate and report it, rather than eyeballing overlap of two intervals one of which does not exist."
+   },
+   {
+    "lens": "measurement",
+    "severity": "medium",
+    "claim_attacked": "We keep only items with a parseable answer and a non-empty chain of thought (144 for the base model, 162 for the RL model)... intact control floor, which itself fell from 0.1944 to 0.1420.",
+    "why": "Base and RL rates are computed on different, non-paired item pools (144 vs 162), selected by a model-dependent parse filter \u2014 the model's own output decides which items it is evaluated on. The 18-item gap means the two flip rates describe different question subsets, so any base-vs-RL difference, including the intact-control drop 0.194->0.142 that the paper leans on as a 'baseline shift,' is confounded with item composition (e.g. RL's extra kept items may be easier to replay). This is selection and evaluation entangled in the same data.",
+    "suggested_fix": "Restrict to the intersection of items where BOTH checkpoints yield a parseable answer and non-empty CoT, recompute all rates on that paired set, and report paired per-item base-vs-RL differences with CIs; show the intact-control drop survives on the common pool."
+   },
+   {
+    "lens": "claims",
+    "severity": "medium",
+    "claim_attacked": "Abstract: 'both answers depend strongly on the chain of thought'; Discussion: the protocol 'detects real, large CoT dependence.'",
+    "why": "This positive contribution is offered as the durable result, but it is undercut by the draft's own limitation 3: 'the answers may lean on pattern matching as much as on the written reasoning.' Own-CoT accuracy is 0.3403/0.3272, barely above 4-option chance (0.25). For a near-chance model, a high flip rate under mismatch (0.66) is consistent with prompt-instability and latching onto any salient leading prefix, not with the answer 'depending strongly' on genuine reasoning content. The mismatch condition swaps in a different question's confident-looking CoT, so a flip conflates 'removed own reasoning' with 'injected misleading reasoning.' The abstract states the strong interpretation; the contradicting concession is buried as limitation 3 and is not reconciled.",
+    "suggested_fix": "Distinguish dependence-on-reasoning from generic prefix-susceptibility: add a control that prefills semantically-null but same-length text, or compare flip behavior on items the model answers correctly with high vs low margin. Soften the abstract to 'answers are highly sensitive to the prefilled CoT text' unless the pattern-matching alternative is ruled out."
+   },
+   {
+    "lens": "claims",
+    "severity": "medium",
+    "claim_attacked": "'Figure 2 shows the mean corruption flip rate, our summary of causal dependence, at 0.4329 for the base model and 0.3951 for the RL model.'",
+    "why": "The summary measure averages truncate+mismatch+nocot, but the truncate condition flips BELOW the intact control floor for both models: truncate 0.1250 vs intact 0.1944 (base), 0.0864 vs 0.1420 (RL). A 'corruption' that produces fewer answer changes than simply replaying the full CoT is, by the paper's own 'read against control' logic, net-negative dependence signal (noise), yet it is folded into the headline 'causal dependence' summary. This deflates the summary asymmetrically and makes the 0.4329 vs 0.3951 base-vs-RL comparison uninterpretable. The Figure 4 caption even concedes the ordering is 'mismatch above no-CoT above intact above truncate', i.e. truncate is sub-control, but the draft still sums it without flagging the contradiction.",
+    "suggested_fix": "Either drop truncate from the 'causal dependence' summary or report all conditions as net-of-control (flip minus intact) so a sub-control condition is visibly negative; recompute the base-vs-RL summary comparison on the control-adjusted quantity with a CI on the difference."
+   },
+   {
+    "lens": "claims",
+    "severity": "medium",
+    "claim_attacked": "Method: 'a before-and-after comparison on a single model'; Results: 'the intact control floor, which itself fell from 0.1944 to 0.1420.'",
+    "why": "The base and RL flip rates are computed on different filtered item sets (n=144 vs n=162), because item retention depends on each model's own parseable answer and non-empty CoT. So the comparison is not paired despite the 'before-and-after on a single model' framing. The attributed floor drop (0.1944 to 0.1420) that the entire 'baseline shift, not reduced reliance' argument rests on could be partly item-composition, not a model property, since the two floors are measured on non-matched question populations. The draft treats the floor difference as a fact about the RL model and builds the dismissal of the weaker-corruption decreases on it.",
+    "suggested_fix": "Restrict to the intersection of items both checkpoints answer parseably and recompute every flip rate on that matched set with a paired (McNemar-style) base-vs-RL test; report the overlap size so readers can see how much of the floor shift survives matching."
+   }
+  ]
+ },
+ "not_checked": [
+  "paired-intersection reanalysis (items kept by both base and RL)",
+  "a regenerate-from-scratch answer-instability baseline to separate CoT-dependence from instability",
+  "a stronger RL treatment that visibly changes the policy (more steps, larger model, known-transformative regime)",
+  "larger models and generative (non-multiple-choice) reasoning where the CoT is longer and more load-bearing",
+  "richer verifiable rewards (math/code) instead of MMLU correctness",
+  "a true activation-level causal intervention instead of a soft CoT prefill"
+ ]
+}

@@ -1,0 +1,37 @@
+# Self-CoT corruption flip rate: base vs outcome-only RL
+
+Model: Qwen2.5-1.5B-Instruct, GRPO with an outcome-only correctness reward on MMLU (no cue).
+Flip rate = fraction of items whose final answer changes when the model's own CoT is
+corrupted (truncated / replaced with another item's CoT / removed and the answer forced).
+Higher flip rate = the answer is more causally dependent on the CoT.
+Bootstrap: 2000 resamples, percentile 95% CI, seed 42.
+
+## Base model: MMLU accuracy (own CoT, greedy)
+  rate = 0.3403  (95% CI 0.2639-0.4167, n=144)
+
+## RL model: MMLU accuracy (own CoT, greedy)
+  rate = 0.3272  (95% CI 0.2531-0.4012, n=162)
+
+## Base model: intact-CoT flip rate (control, prefill own full CoT)
+  rate = 0.1944  (95% CI 0.1319-0.2639, n=144)
+
+## RL model: intact-CoT flip rate (control, prefill own full CoT)
+  rate = 0.1420  (95% CI 0.0926-0.1975, n=162)
+
+## Base model: truncated-CoT flip rate
+  rate = 0.1250  (95% CI 0.0764-0.1806, n=144)
+
+## RL model: truncated-CoT flip rate
+  rate = 0.0864  (95% CI 0.0432-0.1296, n=162)
+
+## Base model: mismatched-CoT flip rate
+  rate = 0.6597  (95% CI 0.5764-0.7361, n=144)
+
+## RL model: mismatched-CoT flip rate
+  rate = 0.6543  (95% CI 0.5802-0.7284, n=162)
+
+## Base model: no-CoT forced-answer flip rate
+  rate = 0.5139  (95% CI 0.4306-0.5903, n=144)
+
+## RL model: no-CoT forced-answer flip rate
+  rate = 0.4444  (95% CI 0.3702-0.5185, n=162)

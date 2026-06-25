@@ -1,0 +1,9 @@
+model,metric,value,n
+base,intact_flip,0.194444,144
+base,truncate_flip,0.125000,144
+base,mismatch_flip,0.659722,144
+base,nocot_flip,0.513889,144
+rl,intact_flip,0.141975,162
+rl,truncate_flip,0.086420,162
+rl,mismatch_flip,0.654321,162
+rl,nocot_flip,0.444444,162

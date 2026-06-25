@@ -1,0 +1,36 @@
+name: rl-selfcot-causal
+title: "Outcome-Only RL Did Not Reduce a Model's Causal Dependence on Its Own Chain of Thought: A Self-CoT Corruption-Flip Null at Small Scale"
+question: >
+  A worry about outcome-only reinforcement learning is that, by rewarding only
+  the final answer, it makes the chain of thought decorative: the answer would
+  stop causally depending on the reasoning the model writes. We test this with a
+  self-CoT corruption-flip protocol. A model produces its own CoT and answer,
+  then we re-prompt it with that CoT corrupted (truncated, replaced by another
+  question's CoT, or removed) and check whether the answer changes. We compare a
+  base model (Qwen2.5-1.5B-Instruct) against the same model after outcome-only
+  GRPO on MMLU, with an intact-CoT control to bound measurement noise.
+stage: write
+status: >
+  Real run complete (RTX 5090). The mismatched-CoT flip rate, the cleanest
+  causal probe, is statistically indistinguishable between base (0.660, 95% CI
+  0.576-0.736) and RL (0.654, 0.580-0.728); both models' answers depend
+  strongly on the CoT. The smaller decreases in the weaker corruptions track a
+  parallel drop in the intact-control floor (0.194 to 0.142), so they do not
+  indicate reduced CoT reliance. The RL treatment barely moved the model
+  (accuracy 0.340 to 0.327), which limits the test's power. This is an honest
+  null at small scale, not evidence against the broader concern.
+tags:
+  - cot-faithfulness
+  - reinforcement-learning
+  - outcome-reward
+  - causal-intervention
+  - interpretability
+  - ai-safety
+  - null-result
+collaborators:
+  - "Ephraiem Sarabamoun"
+links:
+  code_local: "~/projects/rl-selfcot-causal"
+  sibling_study: "~/projects/rl-cot-faithfulness"
+  compute: "RTX 5090, torch 2.12 cu130, trl 1.5.1; Qwen2.5-1.5B-Instruct + outcome-only GRPO"
+references_bib: references.bib

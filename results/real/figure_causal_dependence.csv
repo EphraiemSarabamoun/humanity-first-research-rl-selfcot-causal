@@ -1,0 +1,3 @@
+model,metric,value,n
+base,mean_corruption_flip,0.432870,144
+rl,mean_corruption_flip,0.395062,162
